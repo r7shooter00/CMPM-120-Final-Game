@@ -8,3 +8,7 @@ let config = {
 let game = new Phaser.Game(config);
 
 let enemyHealth, playerHealth, enemyStrength, playerStrength, enemyIntelligence, playerIntelligence;
+
+/*
+Narrative:
+*/

@@ -37,18 +37,19 @@ class Play extends Phaser.Scene
         //All the text that is displayed
         this.enemyHealthDisplay = this.add.text(game.config.width / 1.375, game.config.height / 4, "Enemy Health: " + enemyHealth).setOrigin(0.5);
         this.playerHealthDisplay = this.add.text(game.config.width / 4, game.config.height / 4, "Player Health: " + playerHealth).setOrigin(0.5);
-        this.instructions = this.add.text(game.config.width / 2, game.config.height / 2 + 50, "Use the UP and DOWN arrows to browse commands, \n      then hit ENTER to execute command").setOrigin(0.5);
-        this.attackCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 100, "Attack").setOrigin(0.5);
-        this.magicCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 150, "Magic").setOrigin(0.5);
-        this.playerResult = this.add.text(game.config.width / 2, game.config.height / 2, "").setOrigin(0.5);
-        this.enemyResult = this.add.text(game.config.width / 2, game.config.height / 2 + 20, "").setOrigin(0.5);
-        this.healCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 100, "Heal").setOrigin(0.5);
+        this.instructions = this.add.text(game.config.width / 2, game.config.height / 2 + 180, "Use the UP and DOWN arrows to browse commands, \n      then hit ENTER to execute command").setOrigin(0.5);
+        this.attackCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 70, "Attack").setOrigin(0.5);
+        this.magicCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 95, "Magic").setOrigin(0.5);
+        this.playerResult = this.add.text(game.config.width / 2, game.config.height / 2 - 25, "").setOrigin(0.5);
+        this.enemyResult = this.add.text(game.config.width / 2, game.config.height / 2, "").setOrigin(0.5);
+        this.commandDescription = this.add.text(game.config.width / 2, game.config.height / 2 + 40, "").setOrigin(0.5);
+        this.healCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 70, "Heal").setOrigin(0.5);
         this.healCommand.visible = false;
-        this.fireCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 125, "Fire").setOrigin(0.5);
+        this.fireCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 95, "Fire").setOrigin(0.5);
         this.fireCommand.visible = false;
-        this.iceCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 150, "Ice").setOrigin(0.5);
+        this.iceCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Ice").setOrigin(0.5);
         this.iceCommand.visible = false;
-        this.backToMenu = this.add.text(game.config.width / 2, game.config.height / 2 + 175, "Back").setOrigin(0.5);
+        this.backToMenu = this.add.text(game.config.width / 2, game.config.height / 2 + 145, "Back").setOrigin(0.5);
         this.backToMenu.visible = false;
 
         //Main commands. Commands are stored in array to later create menu behavior
@@ -95,6 +96,9 @@ class Play extends Phaser.Scene
 
         //All the menu behavior
         this.activeMenu(this.commandsIndex);
+
+        //checks every frame for the highlighted command to print description
+        this.findCommandDescription();
     }
 
     //deals regular damage to the enemy
@@ -340,5 +344,48 @@ class Play extends Phaser.Scene
     setToGreen(currentMenu)
     {
         this.commands[currentMenu][this.commandsIndices[currentMenu]].setColor("green");
+    }
+
+    //iterates through the commands and prints the description of the highlighted command
+    findCommandDescription()
+    {
+        for(let i = 0; i < this.commands.length; i++)
+            {
+                //iterate through current menu
+                for (let j = 0; j < this.commands[i].length; j++)
+                {
+                    //checks every command and sees if it's highlighted
+                    if (this.commands[i][j].text === "Attack" && this.commands[i][j].style.color === "green")
+                    {
+                        this.commandDescription.setText("Deals damage to the enemy based on strength");
+                        return;
+                    }
+                    else if (this.commands[i][j].text === "Magic" && this.commands[i][j].style.color === "green")
+                    {
+                        this.commandDescription.setText("Access menu of magic commands");
+                        return;
+                    }
+                    else if (this.commands[i][j].text === "Heal" && this.commands[i][j].style.color === "green")
+                    {
+                        this.commandDescription.setText("Heals your health based on intelligence");
+                        return;
+                    }
+                    else if (this.commands[i][j].text === "Fire" && this.commands[i][j].style.color === "green")
+                    {
+                        this.commandDescription.setText("Deals damage to the enemy based on intelligence");
+                        return;
+                    }
+                    else if (this.commands[i][j].text === "Ice" && this.commands[i][j].style.color === "green")
+                    {
+                        this.commandDescription.setText("Deals damage to the enemy based on intelligence");
+                        return;
+                    }
+                    else if (this.commands[i][j].text === "Back" && this.commands[i][j].style.color === "green")
+                    {
+                        this.commandDescription.setText("Return to the main menu");
+                        return;
+                    }
+                }
+            }
     }
 }
