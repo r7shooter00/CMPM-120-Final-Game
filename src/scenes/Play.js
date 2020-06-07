@@ -16,6 +16,8 @@ class Play extends Phaser.Scene
         this.load.audio('option1', './assets/option1.mp3');
         this.load.audio('option2', './assets/option2.mp3');
         this.load.audio('option3', './assets/option3.mp3');
+
+        this.load.audio('music', './assets/music.wav');
     }
 
     create()
@@ -66,6 +68,11 @@ class Play extends Phaser.Scene
         this.commands = [this.mainCommands, this.magicMenu];
         this.commandsIndices = [this.mainCommandsIndex, this.magicMenuIndex];
         this.commandsIndex = 0;
+
+        this.music = this.sound.add('music');
+        this.music.setLoop(true);
+        this.music.setVolume(1);
+        this.music.play();
     }
 
     update()
