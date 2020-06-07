@@ -8,6 +8,10 @@ class Upgrade extends Phaser.Scene
 
     preload()
     {
+        this.load.image('background', './assets/background.png');
+        this.load.image('background2', './assets/background2.png');
+        this.load.image('background3', './assets/background3.png');
+
         //loads audio assets
         this.load.audio('option1', './assets/option1.mp3');
         this.load.audio('option2', './assets/option2.mp3');
@@ -16,6 +20,10 @@ class Upgrade extends Phaser.Scene
 
     create()
     {
+        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+        this.background2 = this.add.tileSprite(0, 0, 640, 480, 'background2').setOrigin(0, 0);
+        this.background3 = this.add.tileSprite(0, 0, 640, 480, 'background3').setOrigin(0, 0);
+        
         //keyboard button information
         this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);

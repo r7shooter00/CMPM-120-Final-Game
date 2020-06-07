@@ -11,6 +11,9 @@ class Play extends Phaser.Scene
         //loads image assets
         this.load.image('player', './assets/player.png');
         this.load.image('enemy', './assets/enemy.png');
+        this.load.image('background', './assets/background.png');
+        this.load.image('background2', './assets/background2.png');
+        this.load.image('background3', './assets/background3.png');
 
         //loads audio assets
         this.load.audio('option1', './assets/option1.mp3');
@@ -20,9 +23,13 @@ class Play extends Phaser.Scene
 
     create()
     {
+        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+        this.background2 = this.add.tileSprite(0, 0, 640, 480, 'background2').setOrigin(0, 0);
+        this.background3 = this.add.tileSprite(0, 0, 640, 480, 'background3').setOrigin(0, 0);
+
         //player and enemy sprites
-        this.player = this.add.sprite(game.config.width / 4, game.config.height / 4 + 50, 'player');
-        this.enemy = this.add.sprite(game.config.width / 1.375, game.config.height / 4 + 50, 'enemy');
+        this.player = this.add.sprite(game.config.width / 4, game.config.height / 4 + 100, 'player');
+        this.enemy = this.add.sprite(game.config.width / 1.375, game.config.height / 4 + 100, 'enemy');
 
         //starting health is kept track of to
         //help reset the values to the appropriate numbers
@@ -37,21 +44,21 @@ class Play extends Phaser.Scene
         this.keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //All the text that is displayed
-        this.roundNumberText = this.add.text(game.config.width / 2, 25, "Round " + roundNumber).setOrigin(0.5);
-        this.enemyHealthDisplay = this.add.text(game.config.width / 1.375, game.config.height / 4, "Enemy Health: " + enemyHealth).setOrigin(0.5);
-        this.playerHealthDisplay = this.add.text(game.config.width / 4, game.config.height / 4, "Player Health: " + playerHealth).setOrigin(0.5);
-        this.attackCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 70, "Attack").setOrigin(0.5);
-        this.magicCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 95, "Magic").setOrigin(0.5);
-        this.playerResult = this.add.text(game.config.width / 2, game.config.height / 2 - 25, "").setOrigin(0.5);
-        this.enemyResult = this.add.text(game.config.width / 2, game.config.height / 2, "").setOrigin(0.5);
-        this.commandDescription = this.add.text(game.config.width / 2, game.config.height / 2 + 40, "").setOrigin(0.5);
-        this.healCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 70, "Heal").setOrigin(0.5);
+        this.roundNumberText = this.add.text(game.config.width / 2, 75, "Round " + roundNumber).setOrigin(0.5);
+        this.enemyHealthDisplay = this.add.text(game.config.width / 1.375, game.config.height / 4 + 50, "Enemy Health: " + enemyHealth).setOrigin(0.5);
+        this.playerHealthDisplay = this.add.text(game.config.width / 4, game.config.height / 4 + 50, "Player Health: " + playerHealth).setOrigin(0.5);
+        this.attackCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Attack").setOrigin(0.5);
+        this.magicCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 145, "Magic").setOrigin(0.5);
+        this.playerResult = this.add.text(game.config.width / 2, game.config.height / 2 + 25, "").setOrigin(0.5);
+        this.enemyResult = this.add.text(game.config.width / 2, game.config.height / 2 + 50, "").setOrigin(0.5);
+        this.commandDescription = this.add.text(game.config.width / 2, game.config.height / 2 + 90, "").setOrigin(0.5);
+        this.healCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Heal").setOrigin(0.5);
         this.healCommand.visible = false;
-        this.fireCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 95, "Fire").setOrigin(0.5);
+        this.fireCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 145, "Fire").setOrigin(0.5);
         this.fireCommand.visible = false;
-        this.auraSlashCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Aura Slash").setOrigin(0.5);
+        this.auraSlashCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 170, "Aura Slash").setOrigin(0.5);
         this.auraSlashCommand.visible = false;
-        this.backToMenu = this.add.text(game.config.width / 2, game.config.height / 2 + 145, "Back").setOrigin(0.5);
+        this.backToMenu = this.add.text(game.config.width / 2, game.config.height / 2 + 195, "Back").setOrigin(0.5);
         this.backToMenu.visible = false;
 
         //Main commands. Commands are stored in array to later create menu behavior
@@ -82,6 +89,9 @@ class Play extends Phaser.Scene
 
     update()
     {
+        this.background2.tilePositionX += 3;
+        this.background3.tilePositionX += 6;
+
         //initializes the highlight for the options
         this.commands[this.commandsIndex][this.commandsIndices[this.commandsIndex]].setColor("green");
 

@@ -8,12 +8,19 @@ class GameOver extends Phaser.Scene
 
     preload()
     {
+        this.load.image('background', './assets/background.png');
+        this.load.image('background2', './assets/background2.png');
+        this.load.image('background3', './assets/background3.png');
         this.load.audio('option3', './assets/option3.mp3');
         this.load.audio('game_over', './assets/game_over.wav');
     }
 
     create()
     {
+        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+        this.background2 = this.add.tileSprite(0, 0, 640, 480, 'background2').setOrigin(0, 0);
+        this.background3 = this.add.tileSprite(0, 0, 640, 480, 'background3').setOrigin(0, 0);
+
         this.game_over_music = this.sound.add('game_over');
         this.game_over_music.setVolume(1);
         this.game_over_music.play();
