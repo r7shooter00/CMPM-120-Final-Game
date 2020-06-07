@@ -33,6 +33,13 @@ class Upgrade extends Phaser.Scene
 
         //initialize the selection process by highlighting the first option
         this.commands[this.commandsIndex].setColor("green");
+
+        this.option1 = this.sound.add('option1');
+        this.option2 = this.sound.add('option2');
+        this.option3 = this.sound.add('option3');
+        this.option1.setVolume(0.25);
+        this.option2.setVolume(0.25);
+        this.option3.setVolume(0.25);
     }
 
     update()
@@ -56,11 +63,11 @@ class Upgrade extends Phaser.Scene
             for(let i = 0; i < this.commands.length; i++)
             {
                 if(i === 0 && this.commands[i].style.color === "green")
-                    this.sound.play('option1');
+                    this.option1.play();
                 else if(i === 1 && this.commands[i].style.color === "green")
-                    this.sound.play('option2');
+                    this.option2.play();
                 else if(i === 2 && this.commands[i].style.color === "green")
-                    this.sound.play('option3');
+                    this.option3.play();
             }
         }
 
@@ -82,11 +89,11 @@ class Upgrade extends Phaser.Scene
             for(let i = 0; i < this.commands.length; i++)
             {
                 if(i === 0 && this.commands[i].style.color === "green")
-                    this.sound.play('option1');
+                    this.option1.play();
                 else if(i === 1 && this.commands[i].style.color === "green")
-                    this.sound.play('option2');
+                    this.option2.play();
                 else if(i === 2 && this.commands[i].style.color === "green")
-                    this.sound.play('option3');
+                    this.option3.play();
             }
         }
 
@@ -96,11 +103,11 @@ class Upgrade extends Phaser.Scene
             for(let i = 0; i < this.commands.length; i++)
             {
                 if(i === 0 && this.commands[i].style.color === "green")
-                    this.sound.play('option1');
+                    this.option1.play();
                 else if(i === 1 && this.commands[i].style.color === "green")
-                    this.sound.play('option2');
+                    this.option2.play();
                 else if(i === 2 && this.commands[i].style.color === "green")
-                    this.sound.play('option3');
+                    this.option3.play();
             }
 
             //If health is highlighted when enter is pressed

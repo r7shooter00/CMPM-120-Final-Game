@@ -16,8 +16,6 @@ class Play extends Phaser.Scene
         this.load.audio('option1', './assets/option1.mp3');
         this.load.audio('option2', './assets/option2.mp3');
         this.load.audio('option3', './assets/option3.mp3');
-
-        this.load.audio('music', './assets/music.wav');
     }
 
     create()
@@ -31,15 +29,17 @@ class Play extends Phaser.Scene
         this.startingPlayerHealth = playerHealth;
         this.startingEnemyHealth = enemyHealth;
 
+        this.healUses = Math.round(playerIntelligence / 3);
+
         //Keyboard button information
         this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //All the text that is displayed
+        this.roundNumberText = this.add.text(game.config.width / 2, 25, "Round " + roundNumber).setOrigin(0.5);
         this.enemyHealthDisplay = this.add.text(game.config.width / 1.375, game.config.height / 4, "Enemy Health: " + enemyHealth).setOrigin(0.5);
         this.playerHealthDisplay = this.add.text(game.config.width / 4, game.config.height / 4, "Player Health: " + playerHealth).setOrigin(0.5);
-        this.instructions = this.add.text(game.config.width / 2, game.config.height / 2 + 180, "Use the UP and DOWN arrows to browse commands, \n      then hit ENTER to execute command").setOrigin(0.5);
         this.attackCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 70, "Attack").setOrigin(0.5);
         this.magicCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 95, "Magic").setOrigin(0.5);
         this.playerResult = this.add.text(game.config.width / 2, game.config.height / 2 - 25, "").setOrigin(0.5);
@@ -49,8 +49,8 @@ class Play extends Phaser.Scene
         this.healCommand.visible = false;
         this.fireCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 95, "Fire").setOrigin(0.5);
         this.fireCommand.visible = false;
-        this.iceCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Ice").setOrigin(0.5);
-        this.iceCommand.visible = false;
+        this.auraSlashCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Aura Slash").setOrigin(0.5);
+        this.auraSlashCommand.visible = false;
         this.backToMenu = this.add.text(game.config.width / 2, game.config.height / 2 + 145, "Back").setOrigin(0.5);
         this.backToMenu.visible = false;
 
@@ -61,7 +61,7 @@ class Play extends Phaser.Scene
         this.mainCommandsIndex = 0;
 
         //Magic menu
-        this.magicMenu = [this.healCommand, this.fireCommand, this.iceCommand, this.backToMenu];
+        this.magicMenu = [this.healCommand, this.fireCommand, this.auraSlashCommand, this.backToMenu];
         this.magicMenuIndex = 0;
 
         //commands array stores all menus so that the code can be abstract with menu behavior
@@ -69,10 +69,15 @@ class Play extends Phaser.Scene
         this.commandsIndices = [this.mainCommandsIndex, this.magicMenuIndex];
         this.commandsIndex = 0;
 
-        this.music = this.sound.add('music');
-        this.music.setLoop(true);
-        this.music.setVolume(1);
-        this.music.play();
+        if(!music.isPlaying)
+            music.play();
+
+        this.option1 = this.sound.add('option1');
+        this.option2 = this.sound.add('option2');
+        this.option3 = this.sound.add('option3');
+        this.option1.setVolume(0.25);
+        this.option2.setVolume(0.25);
+        this.option3.setVolume(0.25);
     }
 
     update()
@@ -87,12 +92,15 @@ class Play extends Phaser.Scene
         //If player dies, go to game over scene
         if(playerHealth <= 0)
         {
+            music.stop();
             this.scene.start("gameOverScene");
         }
 
         //if enemy dies, go to attribute upgrade scene
         else if(enemyHealth <= 0)
         {
+            roundNumber++;
+
             //reset health values
             enemyHealth = this.startingEnemyHealth;
             playerHealth = this.startingPlayerHealth;
@@ -126,7 +134,7 @@ class Play extends Phaser.Scene
         //turns on the options for the magic menu
         this.healCommand.visible = true;
         this.fireCommand.visible = true;
-        this.iceCommand.visible = true;
+        this.auraSlashCommand.visible = true;
         this.backToMenu.visible = true;
 
         //changes the active menu in the commands array to the magic menu
@@ -136,25 +144,35 @@ class Play extends Phaser.Scene
     //heals player
     Heal()
     {
-        let healAmount = 10 + Math.round(playerIntelligence * Math.random());
-        playerHealth += healAmount;
-        this.playerResult.setText("Player casts heal and restores " + healAmount + " health!");
+        if (this.healUses > 0)
+        {
+            let healAmount = 50 + Math.round(playerIntelligence * Math.random());
+            playerHealth += healAmount;
+            if (playerHealth > this.startingPlayerHealth)
+                playerHealth = this.startingPlayerHealth;
+            this.healUses--;
+            this.playerResult.setText("Player casts heal and restores " + healAmount + " health! Has " + this.healUses + " heals left!");
+        }
+        else
+        {
+            this.playerResult.setText("Player's attempt to heal failed, due to having no heals left.");
+        }
     }
 
     //Magic attack
     Fire()
     {
-        let damage = 10 + Math.round(playerIntelligence * Math.random());
+        let damage = Math.round(playerIntelligence * Math.random());
         enemyHealth -= damage;
         this.playerResult.setText("Player casts Fire and deals " + damage + " damage to the enemy!");
     }
 
     //Magic attack
-    Ice()
+    Aura_slash()
     {
-        let damage = 15 + Math.round( 0.75 * playerIntelligence * Math.random());
+        let damage = 10 + Math.round(playerStrength * Math.random() / 2) + Math.round( 0.75 * playerIntelligence * Math.random() / 2);
         enemyHealth -= damage;
-        this.playerResult.setText("Player casts Ice and deals " + damage + " damage to the enemy!");
+        this.playerResult.setText("Player uses Aura Slash and deals " + damage + " damage to the enemy!");
     }
 
     //Takes the player back from the magic menu to the main menu
@@ -171,31 +189,15 @@ class Play extends Phaser.Scene
     //Enemy AI
     enemyAction()
     {
-        //Enemy randomly chooses to attack or use magic
-        if(Math.random() > 0.4)
-        {
-            this.enemyAttack();
-        }
-        else
-        {
-            this.enemyMagic();
-        }
+        this.enemyAttack();
     }
     
     //deals damage to player
     enemyAttack()
     {
-        let damage = 10 + Math.round(enemyStrength * Math.random());
+        let damage = 15 + Math.round(enemyStrength * Math.random());
         playerHealth -= damage;
         this.enemyResult.setText("Enemy deals " + damage + " damage to the player!");
-    }
-
-    //heals enemy
-    enemyMagic()
-    {
-        let healAmount = 10 + Math.round(enemyIntelligence * Math.random());
-        enemyHealth += healAmount;
-        this.enemyResult.setText("Enemy heals " + healAmount + " health!");
     }
 
     //All menu behavior
@@ -230,11 +232,11 @@ class Play extends Phaser.Scene
             for(let i = 0; i < this.commands[currentMenu].length; i++)
             {
                 if(i % 3 === 0 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option1');
+                    this.option1.play();
                 else if(i % 3 === 1 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option2');
+                    this.option2.play()
                 else if(i % 3 === 2 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option3');
+                    this.option3.play()
             }
         }
 
@@ -267,11 +269,11 @@ class Play extends Phaser.Scene
             for(let i = 0; i < this.commands[currentMenu].length; i++)
             {
                 if(i % 3 === 0 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option1');
+                    this.option1.play();
                 else if(i % 3 === 1 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option2');
+                    this.option2.play();
                 else if(i % 3 === 2 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option3');
+                    this.option3.play();
             }
         }
 
@@ -282,11 +284,11 @@ class Play extends Phaser.Scene
             for(let i = 0; i <this.commands[currentMenu].length; i++)
             {
                 if(i % 3 === 0 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option1');
+                    this.option1.play();
                 else if(i % 3 === 1 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option2');
+                    this.option2.play();
                 else if(i % 3 === 2 && this.commands[currentMenu][i].style.color === "green")
-                    this.sound.play('option3');
+                    this.option3.play();
             }
 
             //executes a command based on which command is highlighted, iterate through each menu.
@@ -323,9 +325,9 @@ class Play extends Phaser.Scene
                         this.commands[i][j].setColor("white");
                         return;
                     }
-                    else if (this.commands[i][j].text === "Ice" && this.commands[i][j].style.color === "green")
+                    else if (this.commands[i][j].text === "Aura Slash" && this.commands[i][j].style.color === "green")
                     {
-                        this.Ice();
+                        this.Aura_slash();
                         this.enemyAction();
                         this.commands[i][j].setColor("white");
                         return;
@@ -382,9 +384,9 @@ class Play extends Phaser.Scene
                         this.commandDescription.setText("Deals damage to the enemy based on intelligence");
                         return;
                     }
-                    else if (this.commands[i][j].text === "Ice" && this.commands[i][j].style.color === "green")
+                    else if (this.commands[i][j].text === "Aura Slash" && this.commands[i][j].style.color === "green")
                     {
-                        this.commandDescription.setText("Deals damage to the enemy based on intelligence");
+                        this.commandDescription.setText("Deals damage to the enemy based on strength and intelligence");
                         return;
                     }
                     else if (this.commands[i][j].text === "Back" && this.commands[i][j].style.color === "green")
