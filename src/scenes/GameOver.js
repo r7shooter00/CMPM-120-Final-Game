@@ -33,7 +33,15 @@ class GameOver extends Phaser.Scene
 
         //Displayed text
         this.info = this.add.text(game.config.width / 2, game.config.height / 2, "You lost! You made it to round " + roundNumber).setOrigin(0.5);
+        this.info.setColor("red");
+        this.info.setFontFamily('Waiting for the Sunrise');
+        this.info.setFontSize(24);
+        this.info.setPadding(10, 10, 10, 10);
         this.startOver = this.add.text(game.config.width / 2, game.config.height / 2 + 50, "Press S to start over").setOrigin(0.5);
+        this.startOver.setColor("red");
+        this.startOver.setFontFamily('Waiting for the Sunrise');
+        this.startOver.setFontSize(24);
+        this.startOver.setPadding(10, 10, 10, 10);
     }
 
     update()

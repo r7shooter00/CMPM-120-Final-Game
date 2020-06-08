@@ -28,8 +28,8 @@ class Play extends Phaser.Scene
         this.background3 = this.add.tileSprite(0, 0, 640, 480, 'background3').setOrigin(0, 0);
 
         //player and enemy sprites
-        this.player = this.add.sprite(game.config.width / 4, game.config.height / 4 + 100, 'player');
-        this.enemy = this.add.sprite(game.config.width / 1.375, game.config.height / 4 + 100, 'enemy');
+        this.player = this.add.sprite(game.config.width / 4 - 40, game.config.height / 4 + 90, 'player');
+        this.enemy = this.add.sprite(game.config.width / 1.375 + 40, game.config.height / 4 + 50, 'enemy');
 
         //starting health is kept track of to
         //help reset the values to the appropriate numbers
@@ -45,20 +45,57 @@ class Play extends Phaser.Scene
 
         //All the text that is displayed
         this.roundNumberText = this.add.text(game.config.width / 2, 75, "Round " + roundNumber).setOrigin(0.5);
-        this.enemyHealthDisplay = this.add.text(game.config.width / 1.375, game.config.height / 4 + 50, "Enemy Health: " + enemyHealth).setOrigin(0.5);
-        this.playerHealthDisplay = this.add.text(game.config.width / 4, game.config.height / 4 + 50, "Player Health: " + playerHealth).setOrigin(0.5);
-        this.attackCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Attack").setOrigin(0.5);
-        this.magicCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 145, "Magic").setOrigin(0.5);
-        this.playerResult = this.add.text(game.config.width / 2, game.config.height / 2 + 25, "").setOrigin(0.5);
-        this.enemyResult = this.add.text(game.config.width / 2, game.config.height / 2 + 50, "").setOrigin(0.5);
-        this.commandDescription = this.add.text(game.config.width / 2, game.config.height / 2 + 90, "").setOrigin(0.5);
-        this.healCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "Heal").setOrigin(0.5);
+        this.roundNumberText.setFontFamily('Waiting for the Sunrise');
+        this.roundNumberText.setFontSize(36);
+        this.roundNumberText.setPadding(10, 10, 10, 10);
+        this.roundNumberText.setColor("red");
+        this.enemyHealthDisplay = this.add.text(game.config.width / 1.375 + 40, game.config.height / 4 - 65, enemyHealth).setOrigin(0.5);
+        this.enemyHealthDisplay.setFontFamily('Waiting for the Sunrise');
+        this.enemyHealthDisplay.setFontSize(24);
+        this.enemyHealthDisplay.setPadding(10, 10, 10, 10);
+        this.playerHealthDisplay = this.add.text(game.config.width / 4 - 40, game.config.height / 4, playerHealth).setOrigin(0.5);
+        this.playerHealthDisplay.setFontFamily('Waiting for the Sunrise');
+        this.playerHealthDisplay.setFontSize(24);
+        this.playerHealthDisplay.setPadding(10, 10, 10, 10);
+        this.attackCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 150, "Attack").setOrigin(0.5);
+        this.attackCommand.setFontFamily('Waiting for the Sunrise');
+        this.attackCommand.setFontSize(24);
+        this.attackCommand.setPadding(10, 10, 10, 10);
+        this.magicCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 175, "Magic").setOrigin(0.5);
+        this.magicCommand.setFontFamily('Waiting for the Sunrise');
+        this.magicCommand.setFontSize(24);
+        this.magicCommand.setPadding(10, 10, 10, 10);
+        this.playerResult = this.add.text(game.config.width / 2, game.config.height / 2 + 65, "").setOrigin(0.5);
+        this.playerResult.setFontFamily('Waiting for the Sunrise');
+        this.playerResult.setFontSize(24);
+        this.playerResult.setPadding(10, 10, 10, 10);
+        this.enemyResult = this.add.text(game.config.width / 2, game.config.height / 2 + 90, "").setOrigin(0.5);
+        this.enemyResult.setFontFamily('Waiting for the Sunrise');
+        this.enemyResult.setFontSize(24);
+        this.enemyResult.setPadding(10, 10, 10, 10);
+        this.commandDescription = this.add.text(game.config.width / 2, game.config.height / 2 + 120, "").setOrigin(0.5);
+        this.commandDescription.setFontFamily('Waiting for the Sunrise');
+        this.commandDescription.setFontSize(24);
+        this.commandDescription.setPadding(10, 10, 10, 10);
+        this.healCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 150, "Heal").setOrigin(0.5);
+        this.healCommand.setFontFamily('Waiting for the Sunrise');
+        this.healCommand.setFontSize(24);
+        this.healCommand.setPadding(10, 10, 10, 10);
         this.healCommand.visible = false;
-        this.fireCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 145, "Fire").setOrigin(0.5);
+        this.fireCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 175, "Fire").setOrigin(0.5);
+        this.fireCommand.setFontFamily('Waiting for the Sunrise');
+        this.fireCommand.setFontSize(24);
+        this.fireCommand.setPadding(10, 10, 10, 10);
         this.fireCommand.visible = false;
-        this.auraSlashCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 170, "Aura Slash").setOrigin(0.5);
+        this.auraSlashCommand = this.add.text(game.config.width / 2, game.config.height / 2 + 200, "Aura Slash").setOrigin(0.5);
+        this.auraSlashCommand.setFontFamily('Waiting for the Sunrise');
+        this.auraSlashCommand.setFontSize(24);
+        this.auraSlashCommand.setPadding(10, 10, 10, 10);
         this.auraSlashCommand.visible = false;
-        this.backToMenu = this.add.text(game.config.width / 2, game.config.height / 2 + 195, "Back").setOrigin(0.5);
+        this.backToMenu = this.add.text(game.config.width / 2, game.config.height / 2 + 225, "Back").setOrigin(0.5);
+        this.backToMenu.setFontFamily('Waiting for the Sunrise');
+        this.backToMenu.setFontSize(24);
+        this.backToMenu.setPadding(10, 10, 10, 10);
         this.backToMenu.visible = false;
 
         //Main commands. Commands are stored in array to later create menu behavior
@@ -96,8 +133,8 @@ class Play extends Phaser.Scene
         this.commands[this.commandsIndex][this.commandsIndices[this.commandsIndex]].setColor("green");
 
         //update to current health values
-        this.playerHealthDisplay.text = "Player Health: " + playerHealth;
-        this.enemyHealthDisplay.text = "Enemy Health: " + enemyHealth;
+        this.playerHealthDisplay.text = playerHealth;
+        this.enemyHealthDisplay.text = enemyHealth;
 
         //If player dies, go to game over scene
         if(playerHealth <= 0)
@@ -172,7 +209,7 @@ class Play extends Phaser.Scene
     //Magic attack
     Fire()
     {
-        let damage = Math.round(playerIntelligence * Math.random());
+        let damage = 5 + Math.round(playerIntelligence * Math.random());
         enemyHealth -= damage;
         this.playerResult.setText("Player casts Fire and deals " + damage + " damage to the enemy!");
     }

@@ -5,6 +5,11 @@ let config = {
 	scene: [Menu, Play, Upgrade, GameOver, Credits],
 };
 
+google: 
+{
+    families: ['Waiting for the Sunrise'];
+}
+
 let game = new Phaser.Game(config);
 
 let enemyHealth, playerHealth, enemyStrength, playerStrength, enemyIntelligence, playerIntelligence, music, roundNumber;

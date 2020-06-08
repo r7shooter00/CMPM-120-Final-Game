@@ -22,7 +22,7 @@ class Menu extends Phaser.Scene
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
         this.background2 = this.add.tileSprite(0, 0, 640, 480, 'background2').setOrigin(0, 0);
         this.background3 = this.add.tileSprite(0, 0, 640, 480, 'background3').setOrigin(0, 0);
-        
+
         music = this.sound.add('music');
         music.setLoop(true);
         music.setVolume(1);
@@ -52,10 +52,26 @@ class Menu extends Phaser.Scene
         this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
         //Informational text
-        this.text = this.add.text(game.config.width / 2, game.config.height / 2 - 100, "Game title pending").setOrigin(0.5);
-        this.playInstruction = this.add.text(game.config.width / 2, game.config.height / 2, "Press S to play").setOrigin(0.5);
-        this.creditsInstructions = this.add.text(game.config.width / 2, game.config.height / 2 + 75, "Press C for credits").setOrigin(0.5);
-        this.instructions = this.add.text(game.config.width / 2, game.config.height / 2 + 150, "Use the UP and DOWN arrows to browse commands, \n      then hit ENTER to execute command").setOrigin(0.5);
+        this.text = this.add.text(game.config.width / 2, game.config.height / 2 - 100, "Plight of the Faithful").setOrigin(0.5);
+        this.text.setFontFamily('Waiting for the Sunrise');
+        this.text.setFontSize(48);
+        this.text.setPadding(10, 10, 10, 10);
+        this.goal = this.add.text(game.config.width / 2, game.config.height / 2 - 25, "Survive as long as you can against the immortal bird demon").setOrigin(0.5);
+        this.goal.setFontFamily('Waiting for the Sunrise');
+        this.goal.setFontSize(24);
+        this.goal.setPadding(10, 10, 10, 10);
+        this.playInstruction = this.add.text(game.config.width / 2, game.config.height / 2 + 50, "Press S to play").setOrigin(0.5);
+        this.playInstruction.setFontFamily('Waiting for the Sunrise');
+        this.playInstruction.setFontSize(24);
+        this.playInstruction.setPadding(10, 10, 10, 10);
+        this.creditsInstructions = this.add.text(game.config.width / 2, game.config.height / 2 + 100, "Press C for credits").setOrigin(0.5);
+        this.creditsInstructions.setFontFamily('Waiting for the Sunrise');
+        this.creditsInstructions.setFontSize(24);
+        this.creditsInstructions.setPadding(10, 10, 10, 10);
+        this.instructions = this.add.text(game.config.width / 2, game.config.height / 2 + 175, "Use the UP and DOWN arrows to browse commands, \n      then hit ENTER to execute command").setOrigin(0.5);
+        this.instructions.setFontFamily('Waiting for the Sunrise');
+        this.instructions.setFontSize(24);
+        this.instructions.setPadding(10, 10, 10, 10);
     }
 
     update()
