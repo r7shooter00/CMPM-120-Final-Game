@@ -43,7 +43,7 @@ class Menu extends Phaser.Scene
         enemyStrength = 5;
         playerStrength = 5;
         enemyIntelligence = 5;
-        playerIntelligence = 5;
+        playerIntelligence = 6;
 
         roundNumber = 1;
 

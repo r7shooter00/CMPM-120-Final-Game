@@ -36,7 +36,7 @@ class Play extends Phaser.Scene
         this.startingPlayerHealth = playerHealth;
         this.startingEnemyHealth = enemyHealth;
 
-        this.healUses = Math.round(playerIntelligence / 3);
+        this.healUses = Math.round(playerIntelligence / 6);
 
         //Keyboard button information
         this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -217,7 +217,7 @@ class Play extends Phaser.Scene
     //Magic attack
     Aura_slash()
     {
-        let damage = 10 + Math.round(playerStrength * Math.random() / 2) + Math.round( 0.75 * playerIntelligence * Math.random() / 2);
+        let damage = Math.round(playerStrength * Math.random() / 2) + Math.round( 0.75 * playerIntelligence * Math.random() / 2);
         enemyHealth -= damage;
         this.playerResult.setText("Player uses Aura Slash and deals " + damage + " damage to the enemy!");
     }

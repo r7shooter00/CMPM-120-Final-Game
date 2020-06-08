@@ -164,7 +164,7 @@ class Upgrade extends Phaser.Scene
             else if(this.commands[2].style.color === "red")
             {
                 //Increase player intelligence
-                playerIntelligence += 5;
+                playerIntelligence += 3;
 
                 //increment enemy stats
                 enemyHealth += 5;
